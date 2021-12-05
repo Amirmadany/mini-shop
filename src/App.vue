@@ -1,26 +1,45 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <Header />
+
+    <router-view></router-view>
+
+    <Footer />
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// components
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+
+import { useStore } from 'vuex'
+import { onBeforeMount } from '@vue/runtime-core'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    components: {
+        Header,
+        Footer
+    },
+
+    setup(){
+        // data
+        const store = useStore()
+
+        // methods
+        const getCartItemFromLocalStorage = () => {
+            // go to store and set cart-items from localStorage
+            store.dispatch('cart/getItems')
+        }
+
+        // lifecycle hooks
+        onBeforeMount(() => {
+            getCartItemFromLocalStorage()
+        })
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
